@@ -19,6 +19,7 @@ class Report(models.Model):
         Tag, related_name="reports"
     )  # access the set of reports from a Tag (e.g., some_tag.reports.all()).
     description = models.TextField()
+    file = models.FileField(upload_to="reports", blank=True, null=True)
 
     def __str__(self):
         return self.name

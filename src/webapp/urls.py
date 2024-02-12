@@ -15,4 +15,5 @@ urlpatterns = [
     path("reports/", views.ReportsView.as_view(), name="reports"),
     path("reports/<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("reports/<int:report_id>/update", views.update_report, name="update_report"),
+    path("reports/upload/", views.upload_report, name="upload_report"),
 ]

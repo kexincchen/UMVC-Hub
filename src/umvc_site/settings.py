@@ -126,3 +126,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "web:reports"
 LOGIN_URL = "web:login"
+
+# Base directory for media files
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# URL to access media through the web
+MEDIA_URL = '/media/'

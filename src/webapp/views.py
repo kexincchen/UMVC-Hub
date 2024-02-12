@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# from django.http import Http404
+from .forms import ReportForm
 from .models import Report
 
 
@@ -84,9 +84,15 @@ class ReportsView(LoginRequiredMixin, generic.ListView):
     #     return Report.objects.order_by("-pub_date")[:5]
 
 
-def post_report(request):
-    """Post a new report"""
-    return render(request, "webapp/home.html")
+def upload_report(request):
+    if request.method == "POST":
+        form = ReportForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("web:reports")
+    else:
+        form = ReportForm()
+    return render(request, "webapp/upload_report.html", {"form": form})
 
 
 def update_report(request, report_id):
