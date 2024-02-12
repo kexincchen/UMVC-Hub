@@ -1,6 +1,16 @@
-<h1>{{ report.name }}</h1>
-<ul>
-{% for tag in report.tags.all %}
-    <li>{{ tag.name }}</li>
-{% endfor %}
-</ul>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'webapp/style.css' %}">
+
+<form action="{% url 'web:update_report' report.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>{{ report.name }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for tag in report.tags.all %}
+            <input type="radio" name="tag" id="tag{{ forloop.counter }}" value="{{ tag.id }}">
+            <label for="tag{{ forloop.counter }}">{{ tag.name }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Update report">
+</form>

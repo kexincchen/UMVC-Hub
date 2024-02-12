@@ -1,3 +1,7 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'webapp/style.css' %}">
+
 {% if latest_report_list %}
     <ul>
     {% for report in latest_report_list %}
