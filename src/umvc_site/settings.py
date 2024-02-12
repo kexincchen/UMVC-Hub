@@ -128,7 +128,9 @@ LOGIN_REDIRECT_URL = "web:reports"
 LOGIN_URL = "web:login"
 
 # Base directory for media files
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / "media"
 
 # URL to access media through the web
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
