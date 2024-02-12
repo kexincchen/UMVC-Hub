@@ -1,7 +1,6 @@
-{% load static %}
+{% extends "webapp/base.html" %}
 
-<link rel="stylesheet" href="{% static 'webapp/style.css' %}">
-
+{% block content %}
 {% if latest_report_list %}
     <ul>
     {% for report in latest_report_list %}
@@ -11,3 +10,4 @@
 {% else %}
     <p>No reports are available.</p>
 {% endif %}
+{% endblock %}

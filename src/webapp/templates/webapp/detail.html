@@ -1,7 +1,6 @@
-{% load static %}
+{% extends "webapp/base.html" %}
 
-<link rel="stylesheet" href="{% static 'webapp/style.css' %}">
-
+{% block content %}
 <form action="{% url 'web:update_report' report.id %}" method="post">
     {% csrf_token %}
     <fieldset>
@@ -23,3 +22,4 @@
 {% else %}
     <p>No file is available.</p>
 {% endif %}
+{% endblock %}
