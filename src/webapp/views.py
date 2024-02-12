@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # from django.http import Http404
 from .models import Report
@@ -61,7 +62,10 @@ class DetailView(generic.DetailView):
     template_name = "webapp/detail.html"
 
 
-class ReportsView(generic.ListView):
+class ReportsView(LoginRequiredMixin, generic.ListView):
+    login_url = "web:login"
+    redirect_field_name = "web:reports"
+
     model = Report
     template_name = "webapp/reports.html"
     context_object_name = "latest_report_list"
