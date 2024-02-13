@@ -11,24 +11,6 @@ from .forms import ReportForm, SignUpForm
 from django.contrib.auth import login
 from .models import Report
 
-
-# def home(request):
-#     return HttpResponse("Hello, world. You're at the polls index.")
-
-
-# def home(request):
-#     return render(request, "webapp/home.html")
-
-
-# def vision(request):
-#     return render(request, 'vision.html')
-
-# def history(request):
-#     return render(request, 'history.html')
-
-# def activities(request):
-#     return render(request, 'activities.html')
-
 # def member_gallery(request):
 #     return render(request, 'member_gallery.html')
 
@@ -82,18 +64,18 @@ class ReportsView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView)
     #     """
     #     return self.request.user.has_perm("webapp.can_view_reports")
 
-    # def handle_no_permission(self):
-    #     """
-    #     Override the method to provide custom behavior when the user fails the test.
-    #     """
-    #     if not self.request.user.is_authenticated:
-    #         # Redirects to login page if the user isn't authenticated
-    #         return super().handle_no_permission()
-    #     else:
-    #         # Raises a permission denied error if the user doesn't have the permission
-    #         raise PermissionDenied(
-    #             "Sorry, you do not have permission to view reports. Please contact admin."
-    #         )
+    def handle_no_permission(self):
+        """
+        Override the method to provide custom behavior when the user fails the test.
+        """
+        if not self.request.user.is_authenticated:
+            # Redirects to login page if the user isn't authenticated
+            return super().handle_no_permission()
+        else:
+            # Raises a permission denied error if the user doesn't have the permission
+            raise PermissionDenied(
+                "Sorry, you do not have permission to view reports. Please contact admin."
+            )
 
     def get_queryset(self):
         """
@@ -103,10 +85,6 @@ class ReportsView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView)
         return Report.objects.filter(pub_date__lte=timezone.now()).order_by(
             "-pub_date"
         )[:5]
-
-    # def get_queryset(self):
-    #     """Return the last five published reports."""
-    #     return Report.objects.order_by("-pub_date")[:5]
 
 
 def upload_report(request):
@@ -137,3 +115,4 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, "webapp/signup.html", {"form": form})
+
