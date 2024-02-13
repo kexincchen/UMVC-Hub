@@ -56,7 +56,7 @@ class ReportsView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView)
     model = Report
     template_name = "webapp/reports.html"
     context_object_name = "latest_report_list"
-    permission_required = ["webapp.can_view_reports"]
+    permission_required = ["webapp.view_report"]
 
     # def test_func(self):
     #     """
@@ -115,4 +115,3 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, "webapp/signup.html", {"form": form})
-
