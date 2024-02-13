@@ -1,9 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from .forms import ReportForm
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    PermissionRequiredMixin,
+)
+from django.core.exceptions import PermissionDenied
+from .forms import ReportForm, SignUpForm
+from django.contrib.auth import login
 from .models import Report
 
 
@@ -62,13 +67,33 @@ class DetailView(generic.DetailView):
     template_name = "webapp/detail.html"
 
 
-class ReportsView(LoginRequiredMixin, generic.ListView):
+class ReportsView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     login_url = "web:login"
     redirect_field_name = "web:reports"
 
     model = Report
     template_name = "webapp/reports.html"
     context_object_name = "latest_report_list"
+    permission_required = ["webapp.can_view_reports"]
+
+    # def test_func(self):
+    #     """
+    #     This method is required by UserPassesTestMixin to determine if the user passes a certain condition.
+    #     """
+    #     return self.request.user.has_perm("webapp.can_view_reports")
+
+    # def handle_no_permission(self):
+    #     """
+    #     Override the method to provide custom behavior when the user fails the test.
+    #     """
+    #     if not self.request.user.is_authenticated:
+    #         # Redirects to login page if the user isn't authenticated
+    #         return super().handle_no_permission()
+    #     else:
+    #         # Raises a permission denied error if the user doesn't have the permission
+    #         raise PermissionDenied(
+    #             "Sorry, you do not have permission to view reports. Please contact admin."
+    #         )
 
     def get_queryset(self):
         """
@@ -98,3 +123,17 @@ def upload_report(request):
 def update_report(request, report_id):
     """Update an existing report"""
     return render(request, "webapp/home.html")
+
+
+def signup(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in
+            return redirect(
+                "web:home"
+            )  # Redirect to a home page or another appropriate page
+    else:
+        form = SignUpForm()
+    return render(request, "webapp/signup.html", {"form": form})

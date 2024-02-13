@@ -7,6 +7,7 @@ app_name = "web"
 urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
     path("login/", LoginView.as_view(template_name="webapp/login.html"), name="login"),
+    path("signup/", views.signup, name="signup"),
     # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     # path('vision/', views.vision, name='vision'),
     # path('history/', views.history, name='history'),

@@ -20,6 +20,11 @@ class Report(models.Model):
     )  # access the set of reports from a Tag (e.g., some_tag.reports.all()).
     description = models.TextField()
     file = models.FileField(upload_to="reports", blank=True, null=True)
+    
+    class Meta:
+        permissions = [
+            ("can_view_reports", "Can view reports"),
+        ]
 
     def __str__(self):
         return self.name
@@ -36,3 +41,5 @@ class Report(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
         # return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+
